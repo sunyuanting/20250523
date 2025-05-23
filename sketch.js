@@ -4,6 +4,7 @@ let predictions = [];
 const indices = [409,270,269,267,0,37,39,40,185,61,146,91,181,84,17,314,405,321,375,291];
 const indices2 = [76,77,90,180,85,16,315,404,320,307,306,408,304,303,302,11,72,73,74,184];
 const leftEyeIndices = [243, 190, 56, 28, 27, 29, 30, 247, 130, 25, 110, 24, 23, 22, 26, 112];
+const rightEyeIndices = [263, 466, 388, 387, 386, 385, 384, 398, 362, 382, 381, 380, 374, 373, 390, 249];
 
 function setup() {
   createCanvas(640, 480).position(
@@ -83,7 +84,7 @@ function draw() {
     }
     endShape(CLOSE);
 
-    // 繪製連線
+    // 繪製左眼連線
     stroke(128, 0, 128); // 紫色線條
     strokeWeight(2);
     for (let i = 0; i < leftEyeIndices.length - 1; i++) {
@@ -97,5 +98,20 @@ function draw() {
     const [xStart, yStart] = keypoints[leftEyeIndices[0]];
     const [xEnd, yEnd] = keypoints[leftEyeIndices[leftEyeIndices.length - 1]];
     line(xStart, yStart, xEnd, yEnd);
+
+    // 使用 line 指令連接 rightEyeIndices
+    stroke(0, 0, 255); // 藍色線條
+    strokeWeight(10); // 粗細為 10
+    for (let i = 0; i < rightEyeIndices.length - 1; i++) {
+      const idx1 = rightEyeIndices[i];
+      const idx2 = rightEyeIndices[i + 1];
+      const [x1, y1] = keypoints[idx1];
+      const [x2, y2] = keypoints[idx2];
+      line(x1, y1, x2, y2);
+    }
+    // 將最後一點與第一點連接
+    const [xStartRight, yStartRight] = keypoints[rightEyeIndices[0]];
+    const [xEndRight, yEndRight] = keypoints[rightEyeIndices[rightEyeIndices.length - 1]];
+    line(xStartRight, yStartRight, xEndRight, yEndRight);
   }
 }
