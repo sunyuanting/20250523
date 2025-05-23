@@ -3,6 +3,7 @@ let facemesh;
 let predictions = [];
 const indices = [409,270,269,267,0,37,39,40,185,61,146,91,181,84,17,314,405,321,375,291];
 const indices2 = [76,77,90,180,85,16,315,404,320,307,306,408,304,303,302,11,72,73,74,184];
+const indices3 = [243, 190, 56, 28, 27, 29, 30, 247, 130, 25, 110, 24, 23, 22, 26, 112];
 
 function setup() {
   createCanvas(640, 480).position(
@@ -70,5 +71,31 @@ function draw() {
       vertex(x, y);
     }
     endShape(CLOSE);
+
+    // 使用 line 指令連接 indices3 並填滿紫色
+    fill(128, 0, 128, 150); // 半透明紫色
+    noStroke();
+    beginShape();
+    for (let i = 0; i < indices3.length; i++) {
+      const idx = indices3[i];
+      const [x, y] = keypoints[idx];
+      vertex(x, y);
+    }
+    endShape(CLOSE);
+
+    // 繪製連線
+    stroke(128, 0, 128); // 紫色線條
+    strokeWeight(2);
+    for (let i = 0; i < indices3.length - 1; i++) {
+      const idx1 = indices3[i];
+      const idx2 = indices3[i + 1];
+      const [x1, y1] = keypoints[idx1];
+      const [x2, y2] = keypoints[idx2];
+      line(x1, y1, x2, y2);
+    }
+    // 將最後一點與第一點連接
+    const [xStart, yStart] = keypoints[indices3[0]];
+    const [xEnd, yEnd] = keypoints[indices3[indices3.length - 1]];
+    line(xStart, yStart, xEnd, yEnd);
   }
 }
